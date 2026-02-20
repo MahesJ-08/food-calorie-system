@@ -87,7 +87,6 @@ $user_count = $user_row['uc'] ?? 0;
 
 <body>
 
-    <!-- Navbar (Not Changed) -->
     <?php include("admin_header.php"); ?>
 
     <div class="container py-5">
@@ -98,7 +97,6 @@ $user_count = $user_row['uc'] ?? 0;
 
         <div class="row g-4">
 
-            <!-- Food Types -->
             <div class="col-lg-4 col-md-6">
                 <div class="card dashboard-card shadow border-0 p-4 bg-white">
                     <h6 class="text-muted">Total Food Types</h6>
@@ -112,7 +110,6 @@ $user_count = $user_row['uc'] ?? 0;
                 </div>
             </div>
 
-            <!-- Food Items -->
             <div class="col-lg-4 col-md-6">
                 <div class="card dashboard-card shadow border-0 p-4 bg-white">
                     <h6 class="text-muted">Total Food Items</h6>
@@ -126,7 +123,6 @@ $user_count = $user_row['uc'] ?? 0;
                 </div>
             </div>
 
-            <!-- Users -->
             <div class="col-lg-4 col-md-6">
                 <div class="card dashboard-card shadow border-0 p-4 bg-white">
                     <h6 class="text-muted">Total Registered Users</h6>

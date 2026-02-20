@@ -100,36 +100,27 @@ session_start();
                 <form id="registerForm" action="action.php" method="post">
 
                     <div class="mb-3">
-                        <input type="text" id="username" name="name"
-                               class="form-control form-control-lg"
-                               placeholder="Username">
+                        <input type="text" id="username" name="name" class="form-control form-control-lg" placeholder="Username">
                         <small class="text-danger" id="usernameError"></small>
                     </div>
 
                     <div class="mb-3">
-                        <input type="text" id="email" name="email"
-                               class="form-control form-control-lg"
-                               placeholder="Email">
+                        <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Email">
                         <small class="text-danger" id="emailError"></small>
                     </div>
 
                     <div class="mb-3 position-relative">
-                        <input type="password" id="password" name="password"
-                               class="form-control form-control-lg"
-                               placeholder="Password">
+                        <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Password">
                         <small class="text-danger" id="passwordError"></small>
                     </div>
 
                     <div class="mb-4">
-                        <input type="password" id="confirmPassword" name="cfmpwd"
-                               class="form-control form-control-lg"
-                               placeholder="Confirm Password">
+                        <input type="password" id="confirmPassword" name="cfmpwd" class="form-control form-control-lg" placeholder="Confirm Password">
                         <small class="text-danger" id="confirmError"></small>
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" name="register"
-                                class="btn btn-success btn-lg rounded-pill">
+                        <button type="submit" name="register" class="btn btn-success btn-lg rounded-pill">
                             Register
                         </button>
                     </div>

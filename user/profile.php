@@ -82,38 +82,26 @@ $user_row = mysqli_fetch_assoc($user_result);
                 <input type="hidden" name="oldpwd" id="oldpwd" value="<?= $user_row["password"]; ?>">
 
                 <div class="mb-3">
-                    <input type="text" id="username" name="name"
-                        class="form-control"
-                        placeholder="Username"
-                        value="<?= $user_row["name"]; ?>">
+                    <input type="text" id="username" name="name" class="form-control" placeholder="Username" value="<?= $user_row["name"]; ?>">
                     <small class="text-danger" id="usernameError"></small>
                 </div>
 
                 <div class="mb-3">
-                    <input type="text"
-                        class="form-control"
-                        value="<?= $user_row["email"]; ?>"
-                        readonly>
+                    <input type="text" class="form-control" value="<?= $user_row["email"]; ?>" readonly>
                 </div>
 
                 <div class="mb-3">
-                    <input type="password" id="password" name="password"
-                        class="form-control"
-                        placeholder="New Password (optional)">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="New Password (optional)">
                     <small class="text-danger" id="passwordError"></small>
                 </div>
 
                 <div class="mb-4">
-                    <input type="number" id="calorie" name="calorie"
-                        class="form-control"
-                        placeholder="Daily Calorie Limit"
-                        value="<?= $user_row["daily_calorie_limit"]; ?>">
+                    <input type="number" id="calorie" name="calorie" class="form-control" placeholder="Daily Calorie Limit" value="<?= $user_row["daily_calorie_limit"]; ?>">
                     <small class="text-danger" id="calorieError"></small>
                 </div>
 
                 <div class="d-grid">
-                    <button type="submit" name="update"
-                        class="btn btn-primary btn-modern">
+                    <button type="submit" name="update" class="btn btn-primary btn-modern">
                         Update Profile
                     </button>
                 </div>

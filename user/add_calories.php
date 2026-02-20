@@ -92,30 +92,18 @@ $history_result = mysqli_query($conn, $history_sql);
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Unit (gm/ml/piece)</label>
-                                <input type="number"
-                                    name="quantity"
-                                    id="quantityInput"
-                                    class="form-control" min="1">
+                                <input type="number" name="quantity" id="quantityInput" class="form-control" min="1">
                                 <small class="text-danger" id="unitError"></small>
-
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Total Calories</label>
-                                <input type="number"
-                                    id="calorieInput"
-                                    class="form-control"
-                                    name="total_calorie"
-                                    readonly>
+                                <input type="number" id="calorieInput" class="form-control" name="total_calorie" readonly>
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Date</label>
-                                <input type="date"
-                                    name="consumed_date"
-                                    class="form-control"
-                                    value="<?= date('Y-m-d'); ?>"
-                                    readonly>
+                                <input type="date" name="consumed_date" class="form-control" value="<?= date('Y-m-d'); ?>" readonly>
                             </div>
 
                             <div class="d-grid">

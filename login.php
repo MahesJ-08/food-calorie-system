@@ -106,22 +106,17 @@ session_start();
                 <form id="loginForm" action="action.php" method="post">
 
                     <div class="mb-3">
-                        <input type="text" id="email" name="email"
-                               class="form-control form-control-lg"
-                               placeholder="Email">
+                        <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Email">
                         <small class="text-danger" id="emailError"></small>
                     </div>
 
                     <div class="mb-4">
-                        <input type="password" id="password" name="password"
-                               class="form-control form-control-lg"
-                               placeholder="Password">
+                        <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Password">
                         <small class="text-danger" id="passwordError"></small>
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" name="login"
-                                class="btn btn-primary btn-lg rounded-pill">
+                        <button type="submit" name="login" class="btn btn-primary btn-lg rounded-pill">
                             Login
                         </button>
                     </div>
