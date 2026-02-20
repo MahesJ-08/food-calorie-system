@@ -90,34 +90,15 @@ if(isset($_POST["update"]))
     {
         $user_id = $_POST["user_id"];
         $food_id = $_POST['food_id'];
-        $quantity_taken = $_POST['quantity'];
+        $item_id = $_POST['item_id'];
+        $quantity = $_POST['quantity'];
+        $total_calories = $_POST['total_calorie'];
         $consumed_date = $_POST['consumed_date'];
 
-        // Fetch food details
-        $food_query = "SELECT food_name, quantity, calories 
-                    FROM tbl_food 
-                    WHERE food_id = '$food_id' 
-                    AND user_id = '$user_id'";
-
-        $food_result = mysqli_query($conn, $food_query);
-        $food_row = mysqli_fetch_assoc($food_result);
-
-        if ($food_row) {
-
-            $food_taken = $food_row['food_name'];
-            $base_quantity = $food_row['quantity'];
-            $base_calories = $food_row['calories'];
-
-            if ($base_quantity > 0) {
-                $total_calories = ($quantity_taken / $base_quantity) * $base_calories;
-            } else {
-                $total_calories = 0;
-            }
-
-            $insert = "INSERT INTO tbl_calorie 
-                    (user_id, food_id, food_taken, quantity_taken, total_calories, consumed_date)
+            $insert = "INSERT INTO user_food_log 
+                    (user_id, food_id, item_id, quantity, total_calories, consumed_date)
                     VALUES 
-                    ('$user_id', '$food_id', '$food_taken', '$quantity_taken', '$total_calories', '$consumed_date')";
+                    ('$user_id', '$food_id', '$item_id', '$quantity', '$total_calories', '$consumed_date')";
 
             if (mysqli_query($conn, $insert)) {
                 $_SESSION['message'] = "Food Intake Added Successfully!";
@@ -126,7 +107,6 @@ if(isset($_POST["update"]))
             } else {
                 die("Insert Error: " . mysqli_error($conn));
             }
-        }
     }
 
 ?>

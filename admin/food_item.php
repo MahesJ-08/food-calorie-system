@@ -112,9 +112,9 @@ if (isset($_GET['item_id'])) {
                                 unset($_SESSION['msg_type']);
                                 ?>
                                 <script>
-                                    // setTimeout(function() {
-                                    //     window.location.href = "food_item.php";
-                                    // }, 1500);
+                                    setTimeout(function() {
+                                        window.location.href = "food_item.php";
+                                    }, 1500);
                                 </script>
                             </div>
                         <?php endif; ?>

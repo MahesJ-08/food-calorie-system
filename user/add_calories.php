@@ -14,7 +14,7 @@ $type_sql = "select * from tbl_food_types";
 $type_result = mysqli_query($conn, $type_sql);
 
 
-$history_sql = "select * from tbl_calorie where user_id = '$user_id' order BY consumed_date DESC";
+$history_sql = "select * from user_food_log inner join tbl_food_items on user_food_log.item_id = tbl_food_items.item_id where user_id = '$user_id' order BY consumed_date DESC";
 $history_result = mysqli_query($conn, $history_sql);
 
 ?>
@@ -66,14 +66,14 @@ $history_result = mysqli_query($conn, $history_sql);
                             </script>
                         <?php endif; ?>
 
-                        <form action="user_action.php" method="post">
+                        <form action="user_action.php" id="calorieForm" method="post">
 
                             <input type="hidden" name="user_id" value="<?= $user_id ?>">
 
                             <div class=" row mb-3">
                                 <div class="col">
                                     <label class="form-label fw-semibold">Food Type</label>
-                                    <select name="food_id" id="foodSelect" class="form-select" required>
+                                    <select name="food_id" id="foodID" class="form-select" required>
                                         <option value="">-- Select Food --</option>
                                         <?php while ($row = mysqli_fetch_assoc($type_result)): ?>
                                             <option value="<?= $row['food_id']; ?>">
@@ -84,16 +84,20 @@ $history_result = mysqli_query($conn, $history_sql);
                                 </div>
                                 <div class="col">
                                     <label class="form-label fw-semibold">Food Item</label>
+                                    <select name="item_id" id="itemSelect" class="form-select" required>
+                                        <option value="">--- Select Food Item ---</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Quantity (grams)</label>
+                                <label class="form-label fw-semibold">Unit (gm/ml/piece)</label>
                                 <input type="number"
                                     name="quantity"
                                     id="quantityInput"
-                                    class="form-control"
-                                    required>
+                                    class="form-control" min="1">
+                                <small class="text-danger" id="unitError"></small>
+
                             </div>
 
                             <div class="mb-3">
@@ -101,6 +105,7 @@ $history_result = mysqli_query($conn, $history_sql);
                                 <input type="number"
                                     id="calorieInput"
                                     class="form-control"
+                                    name="total_calorie"
                                     readonly>
                             </div>
 
@@ -114,9 +119,7 @@ $history_result = mysqli_query($conn, $history_sql);
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit"
-                                    name="add_intake"
-                                    class="btn btn-success">
+                                <button type="submit" name="add_intake" class="btn btn-success">
                                     Save Intake
                                 </button>
                             </div>
@@ -137,7 +140,7 @@ $history_result = mysqli_query($conn, $history_sql);
                             <thead class="table-light">
                                 <tr>
                                     <th>Food</th>
-                                    <th>Quantity</th>
+                                    <th>Unit(g/ml/p)</th>
                                     <th>Calories</th>
                                     <th>Date</th>
                                 </tr>
@@ -146,8 +149,8 @@ $history_result = mysqli_query($conn, $history_sql);
                                 <?php if (mysqli_num_rows($history_result) > 0): ?>
                                     <?php while ($row = mysqli_fetch_assoc($history_result)): ?>
                                         <tr>
-                                            <td><?= $row['food_taken']; ?></td>
-                                            <td><?= $row['quantity_taken']; ?> g</td>
+                                            <td><?= $row['food_item']; ?></td>
+                                            <td><?= $row['quantity']; ?></td>
                                             <td><?= number_format($row['total_calories'], 2); ?> kcal</td>
                                             <td><?= $row['consumed_date']; ?></td>
                                         </tr>
@@ -170,32 +173,65 @@ $history_result = mysqli_query($conn, $history_sql);
     </div>
 
     <script>
-        document.getElementById("quantityInput").addEventListener("input", calculateCalories);
-        document.getElementById("foodSelect").addEventListener("change", calculateCalories);
+        document.getElementById("foodID").addEventListener("change", function() {
+            let foodId = this.value;
 
-        function calculateCalories() {
-
-            let foodSelect = document.getElementById("foodSelect");
-            let quantityInput = document.getElementById("quantityInput").value;
-            let calorieInput = document.getElementById("calorieInput");
-
-            let selectedOption = foodSelect.options[foodSelect.selectedIndex];
-
-            if (!selectedOption || quantityInput === "") {
-                calorieInput.value = "";
+            if (foodId === 0) {
+                document.getElementById("itemSelect").innerHTML = "<option value=''>--- Select Food Item ---</option>";
                 return;
             }
 
-            let baseQuantity = selectedOption.getAttribute("data-quantity");
-            let baseCalories = selectedOption.getAttribute("data-calories");
+            fetch("get_food_items.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "food_id=" + foodId
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("itemSelect").innerHTML = "<option value=''>-- Select Item --</option>" + data;
+                });
+        });
 
-            if (baseQuantity && baseCalories) {
+        const itemSelect = document.getElementById("itemSelect");
+        const quantityInput = document.getElementById("quantityInput");
+        const calorieInput = document.getElementById("calorieInput");
 
-                let calculatedCalories = (quantityInput / baseQuantity) * baseCalories;
+        function calculateCalories() {
+            let selectedOption = itemSelect.options[itemSelect.selectedIndex];
+            let unit = selectedOption.getAttribute("data-unit");
+            let calories = selectedOption.getAttribute("data-calories");
+            let quantity = quantityInput.value;
 
-                calorieInput.value = calculatedCalories.toFixed(2);
+            if (calories && quantity && unit) {
+                let totalCalories = (calories / unit) * quantity;
+                calorieInput.value = totalCalories.toFixed(2);
+            } else {
+                calorieInput.value = "";
             }
         }
+
+        itemSelect.addEventListener("change", calculateCalories);
+        quantityInput.addEventListener("input", calculateCalories);
+
+
+        document.getElementById("calorieForm").addEventListener("submit", function(e) {
+            let quantity = document.getElementById("quantityInput").value.trim();
+
+            document.getElementById("unitError").innerText = "";
+
+            let check = true;
+
+            if (quantity <= 0) {
+                e.preventDefault();
+                document.getElementById("unitError").innerText = "Please enter a number for unit.";
+                check = false;
+            }
+            if (!check) {
+                e.preventDefault();
+            }
+        });
     </script>
 
 </body>
