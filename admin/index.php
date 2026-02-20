@@ -71,7 +71,7 @@ session_start();
         <div class="col-12 col-md-5 col-lg-6 image-section d-flex align-items-center justify-content-center text-white text-center p-4">
             <div class="overlay"></div>
             <div class="content">
-                <h1 class="fw-bold">Welcome Back!</h1>
+                <h1 class="fw-bold">Welcome Back Admin!</h1>
                 <p class="lead">
                     Login to continue tracking.
                 </p>

@@ -131,6 +131,7 @@ $history_result = mysqli_query($conn, $history_sql);
                                     <th>Unit(g/ml/p)</th>
                                     <th>Calories</th>
                                     <th>Date</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,6 +142,7 @@ $history_result = mysqli_query($conn, $history_sql);
                                             <td><?= $row['quantity']; ?></td>
                                             <td><?= number_format($row['total_calories'], 2); ?> kcal</td>
                                             <td><?= $row['consumed_date']; ?></td>
+                                            <td><a href="log_delete.php?id=<?= $row["id"] ?>" class="btn btn-outline-danger">Delete</a></td>
                                         </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>

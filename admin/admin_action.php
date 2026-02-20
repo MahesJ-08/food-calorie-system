@@ -51,17 +51,17 @@ if (isset($_POST["add_food"]))
 if (isset($_POST["update_food"])) 
 {
     $food_id = $_POST["food_id"];
-    $food_type = $_POST["food_type"];
+    $food_type = $_POST["foodtype"];
 
-    $edit_sql = "update tbl_food_types set food_type = '$food_type' where food_id = '$food_id')";
+    $edit_sql = "update tbl_food_types set food_type = '$food_type' where food_id = '$food_id'";
     if(mysqli_query($conn, $edit_sql))
     {
-        $_SESSION['message'] = "Food Type Updated Successful! ";
+        $_SESSION['message'] = "Food Type Updated Successful!";
         $_SESSION['msg_type'] = "success";
     }
     else
     {
-        $_SESSION['message'] = "Error to Update! ";
+        $_SESSION['message'] = "Error to Update! ".mysqli_error($conn);
         $_SESSION['msg_type'] = "danger";
     }
     
